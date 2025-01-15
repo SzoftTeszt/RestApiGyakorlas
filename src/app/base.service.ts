@@ -7,6 +7,9 @@ import { Subject } from 'rxjs';
 })
 export class BaseService {
   apiUrl="http://localhost:3000/techcucc/"
+
+  firebaseApi="https://dolgozat-79584-default-rtdb.europe-west1.firebasedatabase.app./"
+
   private adatSub=new Subject()
   constructor(private http:HttpClient) {
     this.downloadAll()
@@ -17,24 +20,32 @@ export class BaseService {
   }
 
   private downloadAll(){
-    this.http.get(this.apiUrl).subscribe(
-      (res)=>this.adatSub.next(res)
+    this.http.get(this.firebaseApi+".json").subscribe(
+      (res:any)=>{
+          let adattomb=[]
+          for (const key in res) {
+            adattomb.push({azon:key, ...res[key]})
+            }
+          this.adatSub.next(adattomb)
+          }
+         
+      
     )
   }
 
   newData(data:any){
-    this.http.post(this.apiUrl,data).forEach(
+    this.http.post(this.firebaseApi+".json",data).forEach(
       ()=>this.downloadAll()
     )
   }
   updateData(data:any){
-    this.http.put(this.apiUrl+data.id,data).forEach(
+    this.http.put(this.firebaseApi+data.azon+".json",data).forEach(
       ()=>this.downloadAll()
     )
   }
 
   deleteData(data:any){
-    this.http.delete(this.apiUrl+data.id).forEach(
+    this.http.delete(this.firebaseApi+data.azon+".json").forEach(
       ()=>this.downloadAll()
     )
   }
