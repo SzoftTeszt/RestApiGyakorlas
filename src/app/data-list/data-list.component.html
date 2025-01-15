@@ -1,0 +1,41 @@
+ <!-- {{cikkek|json}} -->
+<!-- {{cikkek[1]["name"]}} -->
+
+<div class="row">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        {{oszlop}}
+    </div>
+    <div class="col">
+        Actions
+    </div>
+</div>
+<!-- Fejléc Kiíratás vége -->
+
+<!-- Új rekord felvétele -->
+<div  class="row">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        <input [(ngModel)]="newCikk[oszlop]" type="text" class="form-control">
+    </div>
+    <div class="col">
+        <button (click)="newData()" type="button" class="btn btn-primary">Add</button>
+    </div>
+</div>
+
+<!-- Táblázat megjelenítése -->
+<div *ngFor="let cikk of cikkek" class="row">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+        <input [(ngModel)]="cikk[oszlop]" type="text" class="form-control">
+    </div>
+    <div class="col">
+        <button (click)="updateData(cikk)" type="button" class="btn btn-primary">Edit</button>
+        <button (click)="deleteData(cikk)" type="button" class="btn btn-primary ms-2">Delete</button>
+    </div>
+</div>
+
+
+
+<!-- <div *ngFor="let cikk of cikkek" class="row">
+    <div class="col">
+        {{cikk.name}}
+    </div>
+</div> -->
